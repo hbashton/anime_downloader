@@ -3,6 +3,9 @@ from anime_downloader import get_anime_class
 
 
 def main():
+    quality = list()
+    failed = ""
+    
     if len(sys.argv) == 2:
         link = sys.argv[1]
     elif len(sys.argv) >= 3:
@@ -53,7 +56,14 @@ def main():
                 print()
                 print("Downloading episode " + str(epnum))
                 ep = Anime[epnum - 1]
-                ep.download()
+                try:
+                    ep.download()
+                except:
+                    print("Episode " + str(epnum) + " failed to download")
+                    if not failed:
+                        failed = "Episode " + str(epnum)
+                    else:
+                        failed += "\n Episode " + str(epnum)
 
 
     if ep_single_list:
@@ -62,7 +72,18 @@ def main():
             print()
             print("Downloading episode " + str(epnum))
             ep = Anime[epnum - 1]
-            ep.download()
+            try:
+                ep.download()
+            except:
+                print("Episode " + str(epnum) + " failed to download")
+                if not failed:
+                    failed = "Episode " + str(epnum)
+                else:
+                    failed += "\n Episode " + str(epnum)
+    print("Download complete")
+    if failed:
+        print("Failed:")
+        print(failed)
 
 
 def makemydir(whatever):
